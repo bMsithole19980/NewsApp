@@ -1,0 +1,63 @@
+import { Pressable, StyleSheet, Text, View , Image} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { FlatList } from 'react-native';
+
+
+export default function CategoriesScreen({navigation}) {
+    const Categories= ['Technology', 'Business', 'Sports'];
+
+    
+   const navigateToArticle=(category)=>{
+    navigation.navigate('ArticleList', {category});
+   };
+
+    
+
+  return (
+    <View style={styles.container}>
+     
+       <FlatList
+       data={Categories}
+       horizontal
+       renderItem={({item}) =>{
+        return (
+        <Pressable
+        style={styles.category}
+        onPress={()=> navigateToArticle(item)}
+        >
+            <Text style={styles.cat}>{item}</Text>
+
+        </Pressable>)
+       }}
+       keyExtractor={(item)=> item}/>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+    },
+    heading:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+    category:{
+        padding: 2,
+       flexDirection: 'row',
+       marginRight: 20,
+       marginTop: 20
+    
+    },
+    cat:{
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    img:{
+        width: 100,
+        height: 100
+    },
+})
