@@ -1,11 +1,10 @@
-import { Pressable, StyleSheet, Text, View , Image} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { Pressable, StyleSheet, Text, View , } from 'react-native';
+import React  from 'react';
 import { FlatList } from 'react-native';
 
 
 export default function CategoriesScreen({navigation}) {
-    const Categories= ['Technology', 'Business', 'Sports'];
+    const Categories= ['Technology', 'Business', 'Sports', 'Science', 'Entertainment', 'General', 'Health'];
 
     
    const navigateToArticle=(category)=>{

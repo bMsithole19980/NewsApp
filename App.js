@@ -4,6 +4,7 @@ import CategoriesScreen from './Pages/CategoriesScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import ArticleListScreen from './Pages/ArticleListScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import ArticleDescrScreen from './Pages/ArticleDescrScreen';
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
         <Stack.Navigator initialRouteName='Category'>
           <Stack.Screen name ='Category' component={CategoriesScreen}/>
           <Stack.Screen name='ArticleList' component={ArticleListScreen}/>
+          <Stack.Screen name='ArticleDescr' component={ArticleDescrScreen}/>
         </Stack.Navigator>
 
       </NavigationContainer>

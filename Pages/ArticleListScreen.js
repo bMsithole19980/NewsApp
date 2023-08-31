@@ -1,8 +1,9 @@
-import { Pressable, StyleSheet, Text, TouchableOpacity, Image,View } from 'react-native'
+import { Pressable, StyleSheet, Text, Image,View } from 'react-native'
 import React,{useEffect, useState} from 'react'
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function ArticleListScreen() {
@@ -11,6 +12,7 @@ export default function ArticleListScreen() {
     const apiKey ='c7f53a4794ed45378d40382bd6090e76';
     const category =route.params.category;
 
+    const navigation= useNavigation();
     useEffect(()=>{
         const fetchArticles= async()=>{
             try {
@@ -35,10 +37,12 @@ export default function ArticleListScreen() {
       keyExtractor={(item)=> item.title}
       renderItem={({item})=>(
           <Pressable
-          style={styles.articleContainer}>
+          style={styles.articleContainer}
+          onPress={() => navigation.navigate('ArticleDescr', {article: item})}>
               <View style={styles.articleWrap}>
                   <Image source={{ uri: item.urlToImage }} style={styles.articleImg} />
                   <Text>{item.title}</Text>
+           
 
               </View>
               
@@ -67,4 +71,10 @@ const styles = StyleSheet.create({
     articleWrap:{
     flexDirection: 'row'
     },
+    articleImg:{
+        width: 50,
+        height: 50,
+        marginRight: 10,
+
+    }
 })
