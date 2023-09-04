@@ -1,7 +1,7 @@
-import { Pressable, StyleSheet, Text, View , } from 'react-native';
+import { Pressable, StyleSheet, Text, View , Image } from 'react-native';
 import React  from 'react';
 import { FlatList } from 'react-native';
-
+import newLogoImage from '../Image/news.jpg'
 
 export default function CategoriesScreen({navigation}) {
     const Categories= ['Technology', 'Business', 'Sports', 'Science', 'Entertainment', 'General', 'Health'];
@@ -21,13 +21,19 @@ export default function CategoriesScreen({navigation}) {
        horizontal
        renderItem={({item}) =>{
         return (
-        <Pressable
-        style={styles.category}
-        onPress={()=> navigateToArticle(item)}
-        >
-            <Text style={styles.cat}>{item}</Text>
+            <View>
+                <Pressable
+                    style={styles.category}
+                    onPress={() => navigateToArticle(item)}
+                >
+                    <Text style={styles.cat}>{item}</Text>
+                </Pressable>
+                <View style={styles.newsLogo}>
+                    <Image source={newLogoImage} style={styles.img} resizeMode='cover' />
+                </View>
+            </View>
 
-        </Pressable>)
+       )
        }}
        keyExtractor={(item)=> item}/>
     </View>
@@ -37,26 +43,35 @@ export default function CategoriesScreen({navigation}) {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+        width: "100%",
+        borderWidth: 3,
+        borderColor: '#000',
+        borderStyle: 'solid',
+        backgroundColor: 'rgba(19, 198, 237, 0.13)',
+        backdropFilter: 'blur(2.5px)',
+        paddingHorizontal: 10,
     },
-    heading:{
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 16,
-        fontWeight: 'bold'
+    newsLogo:{
+        width: "100%",
+        height: 90,
+        marginTop: 100,    
     },
     category:{
         padding: 2,
        flexDirection: 'row',
        marginRight: 20,
-       marginTop: 20
+       
     
     },
     cat:{
         fontSize: 18,
         fontWeight: 'bold',
+        marginTop: 44
     },
     img:{
-        width: 100,
-        height: 100
+        width: "100%",
+        height: 100,
+        
+   
     },
 })

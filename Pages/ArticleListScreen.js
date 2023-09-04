@@ -31,7 +31,11 @@ export default function ArticleListScreen() {
     },[category])
   return (
     <View style={styles.container}>
-      <Text>Article in {category}</Text>
+      <Text style={styles.header}>Today {category} News</Text>
+      <View style={styles.newsImage}>
+
+      </View>
+      <View style={styles.newsBox}>
       <FlatList
       data={articles}
       keyExtractor={(item)=> item.title}
@@ -40,16 +44,21 @@ export default function ArticleListScreen() {
           style={styles.articleContainer}
           onPress={() => navigation.navigate('ArticleDescr', {article: item})}>
               <View style={styles.articleWrap}>
-                  <Image source={{ uri: item.urlToImage }} style={styles.articleImg} />
-                  <Text>{item.title}</Text>
-           
-
+                <View style={styles.articleImg}></View>
+                  <Image source={{ uri: item.urlToImage }} style={styles.image}  />
+                  <View style={styles.newsTextContainer}>
+                      <Text style={styles.newsText} >{item.title}</Text>
+                  </View>
+                  
               </View>
               
           </Pressable>
 
       )}
       />
+
+      </View>
+     
     </View>
   )
 }
@@ -57,24 +66,62 @@ export default function ArticleListScreen() {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        padding: 1,
+        width: "100%",
+        borderWidth: 3,
+        borderColor: '#000',
+        borderStyle: 'solid',
+        backgroundColor: 'rgba(19, 198, 237, 0.13)',
+        backdropFilter: 'blur(2.5px)',
+        paddingHorizontal: 10,
+        
+    },
+    header:{
         justifyContent: 'center',
-        alignItems: 'center'
-
-    },
-    articleContainer:{
-        flexDirection: 'row',
-        padding: 10,
         alignItems: 'center',
-        justifyContent: 'center'
     },
-    articleWrap:{
-    flexDirection: 'row'
+    newsImage:{
+        width: '100%',
+        height: 50
+
+    }, articleWrap:{
+        width: '98%',
+        height: 150,
+        marginBottom: 10,
+        padding: 20,
+        marginLeft: 2,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        gap: 9.32,
+        flexDirection: 'row',
+        borderColor: '#000',
+        borderColor: '#000',
+        borderStyle: 'solid',
+        borderRadius: 4,
+        backgroundColor: 'white',
+        borderWidth: 3,
+        borderColor: '#000',
+
     },
     articleImg:{
-        width: 50,
-        height: 50,
-        marginRight: 10,
+        width: 102,
+        height: 100,
+        flexShrink: 0,
+        borderWidth: 2,
+        borderColor: '#000',
+        borderStyle: 'solid',
+        borderRadius: 4,
+        gap: 9.32,
+        
+    },
+    newsTextContainer:{
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+    },
+    newsText:{
+        fontSize: 14,
+    
 
-    }
+    },
+
 })
