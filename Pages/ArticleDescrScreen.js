@@ -9,15 +9,18 @@ export default function ArticleDescrScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.titleHeader}>
-        <Text>{article.title}</Text>
+        <Text style={styles.Title}>{article.title}</Text>
       </View>
       <View style={styles.imgContainer}>
-        <Image source={{ uri: article.urlToImage }} />
+        <Image source={{ uri: article.urlToImage }}  />
       </View>
       <View style={styles.AuthorContainer}>
-        <Text>{article.author}</Text>
-        <Text>{article.publishedAt}</Text>
+        <Text>{article.description}</Text>
+         <Text style={styles.Author}>{article.author}</Text>
+        <Text>{article.name}</Text>
+        <Text style={styles.publishedDate}>{article.publishedAt}</Text>
         <Text>{article.country}</Text>
+        <Text>{article.content}</Text>
        
           <Text onPress={()=> Linking.openURL(article.url)}
           style={styles.link}>Visit {article.url} </Text>
@@ -44,13 +47,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  Title:{
+    fontWeight: 'bold',
+    fontSize: 16
+  },
   imgContainer: {
-    width: 50,
-    height: 50,
-    marginRight: 10,
+    width: '90%',
+    height: '50%',
+    marginLeft: 20,
+    marginTop: 20,
+    padding: 10,
+    borderWidth: 3,
+    borderColor: '#000',
+    borderRadius: 4,
 
   },
+  Author:{
+   textAlign: 'center',
+   fontWeight: 'bold',
+   fontSize: 16,
+   color: 'black'
+  },
+  publishedDate:{
+   textAlign: "right",
+   fontWeight: 'bold',
+   fontSize: 16,
+   color: 'black'
+  },
   link:{
-    color: 'blue'
+    marginTop: 10,
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 16,
+   
   }
 })
