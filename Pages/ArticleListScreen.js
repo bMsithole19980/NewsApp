@@ -1,16 +1,20 @@
-import { Pressable, StyleSheet, Text, Image, View } from 'react-native'
+import { Pressable, StyleSheet,TextInput, Text, Image, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Picker } from 'react-native';
+import { API_KEY } from './Config';
+import {FontAwesome} from '@expo/vector-icons'
+
 
 export default function ArticleListScreen() {
     const [articles, setArticles] = useState([]);
     const [country, setCountry] = useState('');
+    const [searchQuery, setSearchQuery]= useState('');
+    const [language, setLanguage]= useState('en')
     const route = useRoute();
-    const apiKey = 'c7f53a4794ed45378d40382bd6090e76';
+    
     const category = route.params.category;
 
     const countryOPtions = {
@@ -28,39 +32,45 @@ export default function ArticleListScreen() {
         const fetchArticles = async () => {
             try {
                 const response = await axios.get(
-                    `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`
+                    `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&language=${language}&apiKey=${API_KEY}`
                 )
                 setArticles(response.data.articles);
                 console.log('Fetched articles:', response.data.articles);
 
 
             } catch (error) {
-                console.error('Werror fetching articles');
+                console.error('Error fetching articles');
             }
         }
         fetchArticles();
     }, [category])
 
-    const handleCountryChange=(selectedCountry)=>{
-        setCountry(selectedCountry);
 
-    }
+
+    const filteredArticles= articles.filter((article)=>{
+        const lowerCaseQuery = searchQuery.toLowerCase();
+        const title = article.title ? article.title.toLowerCase(): '';
+        const description = article.description ? article. description.toLowerCase(): '';
+
+        return(
+         title.includes(lowerCaseQuery) ||
+         description.includes(lowerCaseQuery)   
+        );
+    });
     return (
         <View style={styles.container}>
             <View style={styles.heading}>
                 <Text style={styles.header}>Today {category} News</Text>
-                <Text style={styles.comboBox}>Select Country:</Text>
-                <Picker
-                    selectedValue={country}
-                    onValueChange={(itemValue) => handleCountryChange(itemValue)}
-                    style={styles.pickerr}>
-                    {Object.keys(countryOPtions).map((countryName) => (
-                        <Picker.Item key={countryOPtions[countryName]} 
-                        label={countryName} 
-                        value={countryOPtions[countryName]} />
-                    ))}
-
-                </Picker>
+                <TextInput
+                style={styles.searchInput}
+                placeholder='Search...'
+                value={searchQuery}
+                onChangeText={(text)=> setSearchQuery(text)}/>
+                <Pressable>
+                    <FontAwesome name="search" size={24} color="black" />
+                </Pressable>
+                
+                
 
             </View>
 
@@ -69,7 +79,7 @@ export default function ArticleListScreen() {
             </View>
             <View style={styles.newsBox}>
                 <FlatList
-                    data={articles}
+                    data={filteredArticles}
                     keyExtractor={(item) => item.title}
                     renderItem={({ item }) => (
                         <Pressable
@@ -77,7 +87,7 @@ export default function ArticleListScreen() {
                             onPress={() => navigation.navigate('ArticleDescr', { article: item })}>
                             <View style={styles.articleWrap}>
                                 <View style={styles.articleImg}>
-                                    <Image source={{ uri: item.urlToImage }} style={styles.image} />
+                                    <Image source={{ uri: item.urlToImage }} style={styles.img} />
                                 </View>
 
                                 <View style={styles.newsTextContainer}>
@@ -93,6 +103,7 @@ export default function ArticleListScreen() {
 
             </View>
 
+
         </View>
     )
 }
@@ -104,7 +115,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: '#000',
         borderStyle: 'solid',
-        backgroundColor: 'rgba(19, 198, 237, 0.13)',
+        border: '1px solid #000000',
         backdropFilter: 'blur(2.5px)',
         paddingHorizontal: 10,
 
@@ -112,6 +123,7 @@ const styles = StyleSheet.create({
     heading: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+       
     },
     header: {
         fontWeight: 'bold',
